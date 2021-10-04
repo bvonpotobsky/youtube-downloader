@@ -8,6 +8,8 @@ App made using Node and Express.js
 git clone url-repo
 
 npm install
+
+node index.js
 ```
 
 Open http://localhost:5000

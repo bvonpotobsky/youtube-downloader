@@ -44,7 +44,7 @@
       }
 
       .form {
-        margin: 7rem auto 4rem auto;
+        margin: 7rem auto 1.5rem auto;
       }
 
       .form .form-element {
@@ -123,6 +123,16 @@
         background-color: #2962ff;
         cursor: pointer;
       }
+
+      .error-message {
+        color: #cc0000;
+        font-family: "Nunito", sans-serif;
+        font-size: 1.8rem;
+        font-weight: 600;
+        text-align: center;
+        opacity: 0;
+        transition: all 0.4s;
+      }
     </style>
   </head>
 
@@ -139,6 +149,8 @@
         <button id="getVideo">Find video</button>
       </div>
     </div>
+
+    <p class="error-message"></p>
 
     <div class="video-data">
       <div class="data">
@@ -169,6 +181,8 @@
 
     const getVideoButton = document.querySelector("#getVideo");
 
+    const errorMessage = document.querySelector(".error-message");
+
     const fetchData = async (videoURL) => {
       try {
         const response = await fetch(`${HOST}videoInfo?videoURL=${videoURL}`);
@@ -198,7 +212,7 @@
             ].url; // get HD thumbnail img
           detailsNodes.title.innerHTML = data.videoDetails.title;
           detailsNodes.videoURL.value = videoURL;
-          detailsNodes.downloadOptions.innerHTML = html;
+          detailsNodes.downloadOptions.innerHTML = optionsHTML;
 
           videoData.style.display = "block";
           videoData.scrollIntoView({
@@ -214,7 +228,13 @@
       const videoURL = document.querySelector("#videoURL").value.trim();
 
       if (videoURL.length == 0) {
-        alert("Please enter a youtube video link");
+        errorMessage.textContent = "Insert the link";
+        errorMessage.style.opacity = 1;
+
+        setTimeout(() => {
+          errorMessage.style.opacity = 0;
+        }, 1200);
+
         return;
       }
 
